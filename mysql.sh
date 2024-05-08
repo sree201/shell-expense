@@ -28,7 +28,7 @@ else
 fi
 
 
-dnf install mysql-selinux-noarch -y &>>$LOGFILE
+dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "Installating mysql-selinux-noarch"
 
 systemctl enable mysqld &>>$LOGFILE

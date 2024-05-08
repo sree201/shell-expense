@@ -28,14 +28,14 @@ else
     echo "you are super user."
 fi
 
-dnf install mysql-selinux.noarch -y &>> $LOGFILE  mysql-selinux.noarch
-VALIDATE $? "Installating mysql-selinux.noarch"
+dnf install mysql-server &>> $LOGFILE  mysql-selinux.noarch
+VALIDATE $? "Installating Mysql Server"
 
-systemctl enable mysql-selinux.noarch &>> $LOGFILE
-vVALIDATE $? "Enabling mysql-selinux.noarch"
+systemctl enable mysqld &>> $LOGFILE
+vVALIDATE $? "Enabling Mysql Server"
 
-systemctl start mysql-selinux.noarch &>> $LOGFILE
-VALIDATE $? "starting mysql-selinux.noarch"
+systemctl start mysqld &>> $LOGFILE
+VALIDATE $? "starting Mysql Server"
 
 mysql_secure_installation --set-root-pass ExpenseApp@1 &>> $LOGFILE
 VALIDATE $? "Setting up root password"

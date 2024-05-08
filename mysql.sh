@@ -28,14 +28,14 @@ else
     echo "you are super user."
 fi
 
-dnf install mysql-server &>> $LOGFILE 
+dnf install mysql-server -y &>>$LOGFILE 
 VALIDATE $? "Installating Mysql Server"
 
-systemctl enable mysqld &>> $LOGFILE
+systemctl enable mysqld &>>$LOGFILE
 VALIDATE $? "Enabling Mysql Server"
 
-systemctl start mysqld &>> $LOGFILE
+systemctl start mysqld &>>$LOGFILE
 VALIDATE $? "starting Mysql Server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>> $LOGFILE
+mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
 VALIDATE $? "Setting up root password"

@@ -29,7 +29,7 @@ fi
 
 
 dnf install mysql -y &>>$LOGFILE
-VALIDATE $? "Installating mysql-selinux-noarch"
+VALIDATE $? "Installating mysql"
 
 systemctl enable mysqld &>>$LOGFILE
 validate $? "enabling mysql server"
@@ -38,4 +38,4 @@ systemctl start mysqld &>>$LOGFILE
 validate $? "starting mysql server"
 
 mysql-secure_installation --set-rrot-pass ExpenseApp@1 &>>$LOGFILE
-VALIDATE $? "setting up root passeword"
+VALIDATE $? "setting up root password"

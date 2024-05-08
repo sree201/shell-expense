@@ -32,7 +32,7 @@ dnf install mysql-server &>> $LOGFILE  mysql-selinux.noarch
 VALIDATE $? "Installating Mysql Server"
 
 systemctl enable mysqld &>> $LOGFILE
-vVALIDATE $? "Enabling Mysql Server"
+VALIDATE $? "Enabling Mysql Server"
 
 systemctl start mysqld &>> $LOGFILE
 VALIDATE $? "starting Mysql Server"

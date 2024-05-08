@@ -28,7 +28,7 @@ else
     echo "you are super user."
 fi
 
-dnf install mysql-server &>> $LOGFILE  mysql-selinux.noarch
+dnf install mysql-server &>> $LOGFILE 
 VALIDATE $? "Installating Mysql Server"
 
 systemctl enable mysqld &>> $LOGFILE

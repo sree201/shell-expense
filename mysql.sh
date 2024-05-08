@@ -10,32 +10,32 @@ Y="\e[33m"
 N="\e[34m"
 
 VALIDATE(){
-    if [ $1 -ne 0 ]
+    if [ $1 -ne 0 ] # we can pass the orguments from outside $1 / -ne is the expression 
     then
         echo -e "$2...$R FAILURE $N"
         exit 1
     else
-        ehco -e "$2...$G SUCCESS $N"
-    fi
-}
-
-if [ $USERID -ne 0 ]
-then 
-    echo "please run this script with root access."
-    exit 1 # Manually exit if error comes.
-else
-    echo "your are a super user."
+        echo -e "$2...$G SUCCESS $N"
 fi
 
+}
 
-dnf install mysql -y &>>$LOGFILE
-VALIDATE $? "Installating mysql"
+if [ $USERID -ne 0 ] #"$0 is contains script name"
+then
+    echo "Please run the script with root access."
+    exit 1 #manually exit if error comes / other than 0 we can use any number
+else
+    echo "you are super user."
+fi
 
-systemctl enable mysqld &>>$LOGFILE
-validate $? "enabling mysql server"
+dnf install mysql-server -y &>> $LOGFILE
+VALIDATE $? "Installating Mysql Server"
 
-systemctl start mysqld &>>$LOGFILE
+systemctl enable mysqld &>> $LOGFILE
+validate $? "Enabling Mysql Server"
+
+systemctl start mysqld &>> $LOGFILE
 validate $? "starting mysql server"
 
-mysql-secure_installation --set-rrot-pass ExpenseApp@1 &>>$LOGFILE
-VALIDATE $? "setting up root password"
+mysql_secure_installation --set-root-pass ExpenseApp@1 &>> $LOGFILE
+VALIDATE $? "Setting up root password"

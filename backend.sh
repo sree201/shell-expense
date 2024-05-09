@@ -82,7 +82,7 @@ VALIDATE $? "Start httpd"
 systemctl enable httpd &>>$LOGFILE
 VALIDATE $? "Starting httpd"
 
-mysql -h 192.168.1.66 -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+mysql -h 192.168.1.254 -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "Schema loading"
 
 systemctl restart backend &>>$LOGFILE

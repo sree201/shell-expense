@@ -3,7 +3,7 @@ Description = Backend Service
 
 [Service]
 User=expense
-Environment=DB_HOST="db.tectitcloud.cloud"
+Environment=DB_HOST="db.techitcloud.cloud"
 ExecStart=/bin/node /app/index.js
 SyslogIdentifier=backend
 

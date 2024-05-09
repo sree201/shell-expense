@@ -39,3 +39,12 @@ VALIDATE $? "starting Mysql Server"
 
 mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
 VALIDATE $? "Setting up root password"
+
+id expense &>>$LOGFILE
+if [$? -ne 0]
+then 
+    useradd expense &>>$LOGFILE
+    VALIDATE $? "Creating expense user"
+else
+    echo -e "Expense user already created...$Y SKIPPED $N"
+fi

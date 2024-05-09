@@ -82,7 +82,7 @@ VALIDATE $? "Start httpd"
 systemctl enable httpd &>>$LOGFILE
 VALIDATE $? "Starting httpd"
 
-mysql -h localhost -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+mysql -h NT Service\MSSQL$SQLEXPRESS -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "Schema loading"
 
 systemctl restart backend &>>$LOGFILE

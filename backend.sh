@@ -26,7 +26,7 @@ else
     echo "you are super user."
 fi
 
-dnf module nodejs -y &>>$LOGFILE
+dnf module disable nodejs -y &>>$LOGFILE
 VALIDATE $? "Disabling default nodejs"
 
 dnf module enable nodejs:20 &>>$LOGFILE

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
@@ -28,14 +26,21 @@ else
     echo "you are super user."
 fi
 
-dnf install mysql-server -y &>>$LOGFILE 
-VALIDATE $? "Installating Mysql Server"
+dnf module nodjs -y &>>$LOGFILE
+VALIDATE $? "Desabling default nodejs"
 
-systemctl enable mysqld &>>$LOGFILE
-VALIDATE $? "Enabling Mysql Server"
+dnf module enable nodejs:20 -y &>>$LOGFILE
+VALIDATE $? "Enabling nodejs:20 version"
 
-systemctl start mysqld &>>$LOGFILE
-VALIDATE $? "starting Mysql Server"
+dbf install nodejs -y &>>$LOGFILE
+VALIDATE $? "Installing nodejs"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
-VALIDATE $? "Setting up root password"
+
+id expense &>>$LOGFILE
+if [$? -ne 0]
+then 
+    useradd expense &>>$LOGFILE
+    VALIDATE $? "Creating expense user"
+else
+    echo -e "Expense user already created...$Y SKIPPED $N"
+fi

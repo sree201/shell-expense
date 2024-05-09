@@ -82,8 +82,10 @@ VALIDATE $? "Start httpd mariadb"
 systemctl enable httpd mariadb &>>$LOGFILE
 VALIDATE $? "Starting httpd mariadb"
 
-mysql -h 3.91.249.102 -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+mysql -h SRINATH\SQLEXPRESS -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "Schema loading"
 
 systemctl restart backend &>>$LOGFILE
 VALIDATE $? "Restarting Backend"
+
+#SRINATH\SQLEXPRESS (SRINATH\Srina)

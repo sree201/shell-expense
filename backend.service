@@ -2,8 +2,8 @@
 Description = Backend Service
 
 [Service]
-User=expense
-Environment=DB_HOST="3.91.249.102"
+User=SRINATH\Srina
+Environment=DB_HOST="SRINATH\SQLEXPRESS"
 ExecStart=/bin/node /app/index.js
 SyslogIdentifier=backend
 

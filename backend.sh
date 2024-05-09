@@ -54,7 +54,7 @@ cd /app &>>$LOGFILE
 unzip /tmp/backend.zip
 VALIDATE $? "Extracted backend code"
 
-npm Install nodejs &>>$LOGFILE
+npm Install &>>$LOGFILE
 VALIDATE $? "Installing nodejs dependencies"
 
 cp /home/maintuser/shell-expense/backend.service /etc/systemd/system/backend.service &>>$LOGFILE

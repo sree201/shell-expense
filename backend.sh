@@ -27,7 +27,7 @@ else
 fi
 
 dnf module nodejs -y &>>$LOGFILE
-VALIDATE $? "disabling default nodejs"
+VALIDATE $? "Disabling default nodejs"
 
 dnf module enable nodejs:20 -y &>>$LOGFILE
 VALIDATE $? "Enabling nodejs:20 version"

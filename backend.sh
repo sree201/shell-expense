@@ -73,6 +73,15 @@ VALIDATE $? "Starting and enabling backend"
 dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "Installing Mysql client"
 
+dnf install -y httpd php mariadb105 &>>$LOGFILE
+VALIDATE $? "Installing php mariadb105"
+
+systemctl start httpd php mariadb105 &>>$LOGFILE
+VALIDATE $? "Start httpd php mariadb105"
+
+systemctl enable httpd php mariadb105 &>>$LOGFILE
+VALIDATE $? "Starting httpd php mariadb105"
+
 mysql -h 172.31.19.64 -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "Schema loading"
 

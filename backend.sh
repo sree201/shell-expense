@@ -27,7 +27,7 @@ else
 fi
 
 dnf module nodejs -y &>>$LOGFILE
-VALIDATE $? "Desabling default nodejs"
+VALIDATE $? "disabling default nodejs"
 
 dnf module enable nodejs:20 -y &>>$LOGFILE
 VALIDATE $? "Enabling nodejs:20 version"
@@ -42,5 +42,5 @@ then
     useradd expense &>>$LOGFILE
     VALIDATE $? "Creating expense user"
 else
-    echo -e "Expense user already created...$Y SKIPPED $N"
+    echo -e "Expense user already created...$Y SKIPPING $N"
 fi

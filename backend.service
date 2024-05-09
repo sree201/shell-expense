@@ -3,8 +3,8 @@ Description = Backend Service
 
 [Service]
 User=expense
-Environment=DB_HOST="68.74.152.41"
-ExecStart=/bin/node /app/index.js
+Environment=DB_HOST="network-online.target"
+ExecStart=/usr/bin/amazon-ssm-agent
 SyslogIdentifier=backend
 
 [Install]

@@ -29,7 +29,7 @@ fi
 dnf module nodejs -y &>>$LOGFILE
 VALIDATE $? "Desabling default nodejs"
 
-dnf module enable nodejs:20 -y &>>$LOGFILE
+dnf module enable nodejs:20 &>>$LOGFILE
 VALIDATE $? "Enabling nodejs:20 version"
 
 dbf install nodejs -y &>>$LOGFILE

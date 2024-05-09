@@ -7,7 +7,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[34m"
 echo "Please enter DB password:"
-read -s mysql_root_password
+read mysql_root_password
 
 VALIDATE(){
     if [ $1 -ne 0 ] # we can pass the orguments from outside $1 / -ne is the expression 

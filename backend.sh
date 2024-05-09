@@ -6,6 +6,8 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[34m"
+echo "Please enter DB Password:"
+read -s mysql_root_password
 
 VALIDATE(){
     if [ $1 -ne 0 ] # we can pass the orguments from outside $1 / -ne is the expression 
@@ -29,7 +31,7 @@ fi
 dnf module disable nodejs -y &>>$LOGFILE
 VALIDATE $? "Disabling default nodejs"
 
-dnf module enable nodejs:20 &>>$LOGFILE
+dnf module enable nodejs:20 -y &>>$LOGFILE
 VALIDATE $? "Enabling nodejs:20 version"
 
 dnf install nodejs -y &>>$LOGFILE
@@ -43,3 +45,35 @@ then
 else
     echo -e "Expense user already created...$Y SKIPPING $N"
 fi
+
+mkdir -p /app &>>$LOGFILE
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
+VALIDATE $? "Downloading backend code"
+
+cd /app &>>$LOGFILE
+unzip /tmp/backend.zip
+VALIDATE $? "Extracted backend code"
+
+npm Install &>>$LOGFILE
+VALIDATE $? "Installing nodejs dependencies"
+
+cp /home/maintuser/shell-expense/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
+VALIDATE $? "Copied backend service"
+
+systemctl daemon-reload &>>$LOGFILE
+VALIDATE $? "Daemon Reload"
+
+systemctl start backend &>>$LOGFILE
+VALIDATE $? "Start backend"
+
+systemctl enable backend &>>$LOGFILE
+VALIDATE $? "Starting and enabling backend"
+
+dnf install mysql -y &>>$LOGFILE
+VALIDATE $? "Installing Mysql client"
+
+mysql -h db.sree201.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+VALIDATE $? "Schema loading"
+
+systemctl restart backend &>>$LOGFILE
+VALIDATE $? "Restarting backend"

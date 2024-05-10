@@ -47,7 +47,7 @@ VALIDATE $? "Downloading frontend code"
 
 cd /usr/share/nginx/html &>>$LOGFILE
 unzip /tmp/frontend.zip &>>$LOGFILE
-VLAIDATE $? "Extracting the frontend code"
+VALIDATE $? "Extracting the frontend code"
 
 # Check your repo and path
 cp /home/maintuser/shell-expense/expense.conf /etc/nginx/default.d/expense.conf &>>$LOGFILE

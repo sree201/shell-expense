@@ -87,5 +87,3 @@ VALIDATE $? "Schema loading"
 
 systemctl restart backend &>>$LOGFILE
 VALIDATE $? "Restarting Backend"
-
-#SRINATH\SQLEXPRESS (SRINATH\Srina)

@@ -30,16 +30,16 @@ else
     echo "your are a super user."
 fi
 
-dnf install ngnix -y &>>$LOGFILE
-VALIDATE $? "Installing Ngnix"
+dnf install nginx -y &>>$LOGFILE
+VALIDATE $? "Installing nginx"
 
-systemctl enable ngnix &>>$LOGFILE
-VALIDATE $? "Enabling ngnix"
+systemctl enable nginx &>>$LOGFILE
+VALIDATE $? "Enabling nginx"
 
-systemctl start ngnix &>>$LOGFILE
-VALIDATE $? "Starting ngnix"
+systemctl start nginx &>>$LOGFILE
+VALIDATE $? "Starting nginx"
 
-rm -rf /usr/share/ngnix/html/* &>>$LOGFILE
+rm -rf /usr/share/nginx/html/* &>>$LOGFILE
 VALIDATE $? "Removing existing content"
 
 curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip &>>$LOGFILE
@@ -54,4 +54,4 @@ cp /home/maintuser/shell-expense/expense.conf /etc/nginx/default.d/expense.conf 
 VALIDATE $? "Copied nginx path"
 
 systemctl restart ngnix &>>$LOGFILE
-VALIDATE $? "Restart ngnix service"
+VALIDATE $? "Restart nginx service"

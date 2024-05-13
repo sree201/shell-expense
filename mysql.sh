@@ -60,10 +60,10 @@ systemctl enable mysqld &>>$LOGFILE
 systemctl start mysqld &>>$LOGFILE
 
 #Below code will be useful for idempotent nature
-mysqld -h 172.31.19.6 -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGFILE
+#mysql -h 172.31.19.6 -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGFILE
 if [ $? -ne 0 ]
 then
-    mysqld_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
+    mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
 else
     echo -e "MySQL Root password is already setup...$Y SKIPPING $N"
 fi

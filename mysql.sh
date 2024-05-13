@@ -39,7 +39,7 @@ VALIDATE $? "Enabling Mysql Server"
 systemctl start mysqld &>>$LOGFILE
 VALIDATE $? "starting Mysql Server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
-VALIDATE $? "Setting up root password"
+# mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
+# VALIDATE $? "Setting up root password"
 
-#/bin/node /app/index.js
+# Below code will be useful for idempotency nature

@@ -39,7 +39,7 @@ VALIDATE $? "Enabling Mysql Server"
 systemctl start mysqld &>>$LOGFILE
 VALIDATE $? "starting Mysql Server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
+#mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
 # VALIDATE $? "Setting up root password"
 
 # Below code will be useful for idempotency nature

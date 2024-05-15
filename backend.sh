@@ -1,3 +1,5 @@
+#!/bin/bash
+
 USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
@@ -5,27 +7,26 @@ LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
-N="\e[34m"
+N="\e[0m"
 echo "Please enter DB password:"
-read mysql_root_password
+read -s mysql_root_password
 
 VALIDATE(){
-    if [ $1 -ne 0 ] # we can pass the orguments from outside $1 / -ne is the expression 
-    then
+   if [ $1 -ne 0 ]
+   then
         echo -e "$2...$R FAILURE $N"
         exit 1
     else
         echo -e "$2...$G SUCCESS $N"
-fi
-
+    fi
 }
 
-if [ $USERID -ne 0 ] #"$0 is contains script name"
+if [ $USERID -ne 0 ]
 then
-    echo "Please run the script with root access."
-    exit 1 #manually exit if error comes / other than 0 we can use any number
+    echo "Please run this script with root access."
+    exit 1 # manually exit if error comes.
 else
-    echo "you are super user."
+    echo "You are super user."
 fi
 
 dnf module disable nodejs -y &>>$LOGFILE
@@ -39,7 +40,7 @@ VALIDATE $? "Installing nodejs"
 
 id expense &>>$LOGFILE
 if [ $? -ne 0 ]
-then 
+then
     useradd expense &>>$LOGFILE
     VALIDATE $? "Creating expense user"
 else
@@ -47,6 +48,8 @@ else
 fi
 
 mkdir -p /app &>>$LOGFILE
+VALIDATE $? "Creating app directory"
+
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
 VALIDATE $? "Downloading backend code"
 
@@ -58,31 +61,23 @@ VALIDATE $? "Extracted backend code"
 npm install &>>$LOGFILE
 VALIDATE $? "Installing nodejs dependencies"
 
-cp /home/maintuser/shell-expense/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
+#check your repo and path
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
 VALIDATE $? "Copied backend service"
 
 systemctl daemon-reload &>>$LOGFILE
 VALIDATE $? "Daemon Reload"
 
 systemctl start backend &>>$LOGFILE
-VALIDATE $? "Start backend"
+VALIDATE $? "Starting backend"
 
 systemctl enable backend &>>$LOGFILE
-VALIDATE $? "Starting and enabling backend"
+VALIDATE $? "Enabling backend"
 
 dnf install mysql -y &>>$LOGFILE
-VALIDATE $? "Installing Mysql client"
+VALIDATE $? "Installing MySQL Client"
 
-dnf install -y httpd &>>$LOGFILE
-VALIDATE $? "Installing httpd"
-
-systemctl start httpd &>>$LOGFILE
-VALIDATE $? "Start httpd"
-
-systemctl enable httpd &>>$LOGFILE
-VALIDATE $? "Starting httpd"
-
-mysql -h 172.31.19.64 -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+mysql -h db.daws78s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "Schema loading"
 
 systemctl restart backend &>>$LOGFILE

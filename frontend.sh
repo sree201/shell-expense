@@ -7,14 +7,11 @@ LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
-N="\e[34m"
-
-echo "Please enter the password:"
-read -s mysql_root_password
+N="\e[0m"
 
 VALIDATE(){
-    if [ $1 -ne 0 ]
-    then
+   if [ $1 -ne 0 ]
+   then
         echo -e "$2...$R FAILURE $N"
         exit 1
     else
@@ -25,9 +22,9 @@ VALIDATE(){
 if [ $USERID -ne 0 ]
 then
     echo "Please run this script with root access."
-    exit 1
+    exit 1 # manually exit if error comes.
 else
-    echo "your are a super user."
+    echo "You are super user."
 fi
 
 dnf install nginx -y &>>$LOGFILE
@@ -47,11 +44,11 @@ VALIDATE $? "Downloading frontend code"
 
 cd /usr/share/nginx/html &>>$LOGFILE
 unzip /tmp/frontend.zip &>>$LOGFILE
-VALIDATE $? "Extracting the frontend code"
+VALIDATE $? "Extracting frontend code"
 
-# Check your repo and path
+#check your repo and path
 cp /home/maintuser/shell-expense/expense.conf /etc/nginx/default.d/expense.conf &>>$LOGFILE
-VALIDATE $? "Copied nginx path"
+VALIDATE $? "Copied expense conf"
 
-systemctl restart ngnix &>>$LOGFILE
-VALIDATE $? "Restart nginx service"
+systemctl restart nginx &>>$LOGFILE
+VALIDATE $? "Restarting nginx"

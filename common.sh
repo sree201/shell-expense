@@ -8,5 +8,23 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-echo "Please enter DB Password:"
-read -s mysql_root_password
+
+VALIDATE(){
+    if [ $1 -ne 0 ]
+    then
+        echo -e "$2...$R FAILURE $N"
+        exit 1
+    else
+        echo -e "$2...$G SUCCESS $N"
+    fi
+}
+
+check_root(){   # We can call from one script to another script defnetly we use function for a specific code. 
+if [ $USERID -eq 0 ]
+then
+    echo "Please run this script using root access."
+    exit 1
+else
+    echo "your are a super user"
+fi
+}
